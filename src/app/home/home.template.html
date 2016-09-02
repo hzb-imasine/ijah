@@ -1,0 +1,120 @@
+<!-- <h1>Hello From Home</h1> -->
+<div class="row">
+  <div class="col-md-6">
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5">
+      <div *ngIf="activeTanaman">
+        <div *ngFor="let t of tanaman">
+          <template #customTanaman let-model="item" let-index="index">
+            <h5>{{model.name}}</h5>
+          </template>
+          <input [(ngModel)]="t.value"
+                 [typeahead]="tanamanSearch"
+                 [typeaheadItemTemplate]="customTanaman"
+                 [typeaheadOptionField]="'name'"
+                 [typeaheadOptionsLimit]="7"
+                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                 class="form-control verticalLine1"
+                 placeholder="Plant"
+                 (focus)="focusTanaman(t.index)">
+          <!-- <input class="form-control verticalLine1" (focus)="focusTanaman(t.index)" placeholder="Tanaman" [(ngModel)]="t.value" /> {{t.value}} -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div *ngIf="activeCompound">
+        <div *ngFor="let c of compound">
+          <template #customCompound let-model="item" let-index="index">
+            <h5>{{model.name}}</h5>
+          </template>
+          <input [(ngModel)]="c.value"
+                 [typeahead]="compoundSearch"
+                 [typeaheadItemTemplate]="customCompound"
+                 [typeaheadOptionField]="'name'"
+                 [typeaheadOptionsLimit]="7"
+                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                 class="form-control verticalLine2"
+                 placeholder="Compound"
+                 (focus)="focusCompound(c.index)">
+          <!-- <input class="form-control verticalLine2" (focus)="focusCompound(c.index)" placeholder="Compound" [(ngModel)]="c.value" /> {{c.value}} -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-1"></div>
+  </div>
+
+  <div class="verticalLineA col-md-6">
+    <div class="col-md-1"></div>
+
+    <div class="col-md-5" >
+      <div *ngIf="activeProtein">
+        <div *ngFor="let p of protein">
+          <template #customProtein let-model="item" let-index="index">
+            <h5>{{model.name}}</h5>
+          </template>
+          <input [(ngModel)]="p.value"
+                 [typeahead]="proteinSearch"
+                 [typeaheadItemTemplate]="customProtein"
+                 [typeaheadOptionField]="'name'"
+                 [typeaheadOptionsLimit]="7"
+                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                 class="form-control verticalLine3"
+                 placeholder="Protein"
+                 (focus)="focusProtein(p.index)">
+          <!-- <input class="form-control verticalLine3" (focus)="focusProtein(p.index)" placeholder="Protein" [(ngModel)]="p.value" /> {{p.value}} -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div *ngIf="activeDisease">
+        <div *ngFor="let d of disease">
+          <template #customDisease let-model="item" let-index="index">
+            <h5>{{model.name}}</h5>
+          </template>
+          <input [(ngModel)]="d.value"
+                 [typeahead]="diseaseSearch"
+                 [typeaheadItemTemplate]="customDisease"
+                 [typeaheadOptionField]="'name'"
+                 [typeaheadOptionsLimit]="7"
+                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                 class="form-control verticalLine4"
+                 placeholder="Disease"
+                 (focus)="focusDisease(d.index)">
+          <!-- <input class="form-control verticalLine4" (focus)="focusDisease(d.index)" placeholder="Disease" [(ngModel)]="d.value" /> {{d.value}} -->
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-1"></div>
+  </div>
+</div>
+
+<br />
+
+<div class="row">
+  <div class="col-md-4 col-md-offset-4">
+    <div class="row">
+      <div class="col-md-2"></div>
+
+      <div class="col-md-4">
+        <button class="form-control btn btn-success">Predict</button>
+      </div>
+
+      <div class="col-md-4">
+        <button class="form-control btn btn-danger" (click)="reset()">Reset</button>
+      </div>
+
+      <div class="col-md-2"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="row">
+  <div hidden>Chart type: <chart-selector (select)="selectType($event)"></chart-selector></div>
+  <nvd3 [options]="options" [data]="data"></nvd3>
+</div>
