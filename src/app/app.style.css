@@ -6,3 +6,12 @@ html, body{
 span.active {
   background-color: gray;
 }
+
+iframe {
+    padding: 0;
+    margin: 0;
+}
+
+.foot {
+  color: #34495e;
+}

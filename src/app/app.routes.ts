@@ -11,7 +11,7 @@ export const ROUTES: Routes = [
   { path: 'home',  component: Home },
   { path: 'about', component: About },
   {
-    path: 'detail', loadChildren: () => System.import('./+detail')
+    path: 'manual', loadChildren: () => System.import('./+detail')
   },
   { path: '**',    component: NoContent },
 ];
