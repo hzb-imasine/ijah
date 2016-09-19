@@ -8,7 +8,7 @@ import 'rxjs/add/observable/of';
 import { Http } from '@angular/http';
 
 @Component({
-  selector: 'home',  // <home></home>
+  selector: 'home',
   providers: [
   ],
   directives: [
@@ -96,7 +96,7 @@ export class Home {
   }
 
   ngOnInit() {
-    console.log('hello `Home` component');
+
   }
 
   submitState(value) {
@@ -149,6 +149,11 @@ export class Home {
     this.activeProtein = true;
     this.activeDisease = true;
 
+    this.pTanaman = false;
+    this.pCompound = false;
+    this.pProtein = false;
+    this.pDisease = false;
+
     this.tanaman = [{ 'index': this.countTanaman, 'value' : ''}];
     this.compound = [{ 'index': this.countCompound, 'value' : ''}];
     this.protein = [{ 'index': this.countProtein, 'value' : ''}];
@@ -172,6 +177,8 @@ export class Home {
     return true;
   }
 
+
+  pTanaman = false;
   predictTanaman() {
 
     this.tanaman.pop();
@@ -182,7 +189,7 @@ export class Home {
       .map(res => res.json())
       .subscribe(data => {
 
-        console.log(data);
+        // console.log(data);
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
@@ -193,9 +200,10 @@ export class Home {
         if (proteinDisease.length != 0) {
 
           for (let i = 0; i < proteinDisease.length / (this.tanaman.length * 5); i++) {
-            let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
-
-            this.dataLocal.push(push);
+            if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+              let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+              this.dataLocal.push(push);
+            }
           }
 
           let cp = [];
@@ -226,13 +234,17 @@ export class Home {
         else {
 
           for (let i = 0; i < plantCompound.length; i++) {
-            let push = [plantCompound[i][0], plantCompound[i][1], 1];
-            this.dataLocal.push(push);
+            if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
+              let push = [plantCompound[i][0], plantCompound[i][1], 1];
+              this.dataLocal.push(push);
+            }
           }
 
           for (let i = 0; i < compoundProtein.length; i++) {
-            let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
-            this.dataLocal.push(push);
+            if (this.check(this.dataLocal, compoundProtein[i][0], compoundProtein[i][1])) {
+              let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
+              this.dataLocal.push(push);
+            }
           }
 
         }
@@ -240,14 +252,16 @@ export class Home {
 
 
         // console.log(this.dataLocal);
+        this.pTanaman = true;
 
-        localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        this.show = true;
+        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
+        // this.show = true;
       })
 
     // console.log(tanam);
   }
 
+  pProtein = false;
   predictProtein() {
 
     this.protein.pop();
@@ -267,20 +281,6 @@ export class Home {
         // console.log(plantCompound.length);
 
         if (plantCompound.length != 0) {
-
-          // for (let i = 0; i < plantCompound.length; i++) {
-          //   let push = [plantCompound[i][0], plantCompound[i][1], 1];
-          //   this.dataLocal.push(push);
-          // }
-          //
-          // for(let i = 0; i < compoundProtein.length / (this.protein.length * 15); i++) {
-          //   for (let j = 0; j < plantCompound.length; j++) {
-          //     if (compoundProtein[i][0] == plantCompound[j][1]) {
-          //         let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
-          //         this.dataLocal.push(push);
-          //     }
-          //   }
-          // }
 
           for (let i = 0; i < 20; i++) {
             for (let j = 0; j < compoundProtein.length; j++) {
@@ -302,50 +302,111 @@ export class Home {
             }
           }
 
-
-
-          // for (let i = 0; i < compoundProtein.length  / (this.protein.length * 20); i++) {
-          //   let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
-          //   this.dataLocal.push(push);
-          // }
-          //
-          // for(let i = 0; i < plantCompound.length   / (this.protein.length * 100); i++) {
-          //   for (let j = 0; j < this.dataLocal.length; j++) {
-          //     if (this.dataLocal[j][0] == plantCompound[i][1]) {
-          //       if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
-          //         let push = [plantCompound[i][0], plantCompound[i][1], 1];
-          //         this.dataLocal.push(push);
-          //       }
-          //     }
-          //   }
-          // }
-
         }
 
         else {
           for (let i = 0; i < compoundProtein.length  / (this.protein.length * 10); i++) {
-            let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
-            this.dataLocal.push(push);
+            if (this.check(this.dataLocal, compoundProtein[i][0], compoundProtein[i][1])) {
+              let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
+              this.dataLocal.push(push);
+            }
           }
 
         }
 
 
         for (let i = 0; i < proteinDisease.length ; i++) {
-          let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
-          this.dataLocal.push(push);
+          if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+            let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+            this.dataLocal.push(push);
+          }
         }
 
         // console.log(this.dataLocal);
 
-        localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        this.show = true;
+        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
+        // this.show = true;
+        this.pProtein = true;
       })
 
     // console.log(tanam);
   }
 
+  pCompound = false;
+  predictCompound() {
 
+    this.compound.pop();
+    let comp = JSON.stringify(this.compound);
+    // console.log(tanam);
+
+    this.http.post('http://localhost/ijah/zz-compound.php', comp)
+      .map(res => res.json())
+      .subscribe(data => {
+
+        // console.log(data);
+
+        let plantCompound = data[0]['plant_compound'];
+        let compoundProtein = data[1]['compound_protein'];
+        let proteinDisease = data[2]['protein_disease'];
+
+        // console.log(proteinDisease.length);
+
+        if (proteinDisease.length != 0 && compoundProtein.length != 0) {
+
+          for (let i = 0; i < 20; i++) {
+            for (let j = 0; j < compoundProtein.length; j++) {
+
+              if (proteinDisease[i][0] == compoundProtein[j][1]) {
+
+                if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+                  let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+                  this.dataLocal.push(push);
+                }
+
+                if (this.check(this.dataLocal, compoundProtein[j][0], compoundProtein[j][1])) {
+                  let push = [compoundProtein[j][0], compoundProtein[j][1], 1];
+                  this.dataLocal.push(push);
+                }
+
+              }
+
+            }
+          }
+
+        }
+
+        else if (compoundProtein.length != 0){
+
+          for (let i = 0; i < 20; i++) {
+            if (this.check(this.dataLocal, compoundProtein[i][0], compoundProtein[i][1])) {
+              let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
+              this.dataLocal.push(push);
+            }
+          }
+
+        }
+
+        let limit;
+        if (plantCompound.length > 20) limit = 20;
+        else limit = plantCompound.length;
+
+        for (let i = 0; i < limit; i++) {
+          if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
+            let push = [plantCompound[i][0], plantCompound[i][1], 1];
+            this.dataLocal.push(push);
+          }
+        }
+
+        // console.log(this.dataLocal);
+
+        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
+        // this.show = true;
+        this.pCompound = true;
+      })
+
+  }
+
+  pDisease = false;
   predictDisease() {
 
     this.disease.pop();
@@ -356,7 +417,7 @@ export class Home {
       .map(res => res.json())
       .subscribe(data => {
 
-        console.log(data);
+        // console.log(data);
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
@@ -367,9 +428,10 @@ export class Home {
         if (plantCompound.length != 0) {
 
           for (let i = 0; i < proteinDisease.length; i++) {
-            let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
-
-            this.dataLocal.push(push);
+            if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+              let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+              this.dataLocal.push(push);
+            }
           }
 
 
@@ -401,8 +463,10 @@ export class Home {
         else {
 
           for (let i = 0; i < proteinDisease.length; i++) {
-            let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
-            this.dataLocal.push(push);
+            if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+              let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+              this.dataLocal.push(push);
+            }
           }
 
           for(let i = 0; i < compoundProtein.length / (this.disease.length * 5); i++) {
@@ -419,9 +483,9 @@ export class Home {
         }
 
 
-
-        localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        this.show = true;
+        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
+        // this.show = true;
+        this.pDisease = true;
       })
 
   }
@@ -436,6 +500,15 @@ export class Home {
   }
 
   example2() {
+    this.compound = [{ 'index': 1, 'value' : 'Kaempferol'}, { 'index': 2, 'value' : ''}];
+
+    this.countCompound = 2;
+    this.activeDisease = false;
+    this.activeTanaman = false;
+    this.activeProtein = false;
+  }
+
+  example3() {
     this.protein = [{ 'index': 1, 'value' : 'Sialate O-acetylesterase'}, { 'index': 2, 'value' : 'Guanine nucleotide-binding protein G(s) subunit alpha isoforms short'}, { 'index': 3, 'value' : ''}];
 
     this.countProtein = 3;
@@ -444,12 +517,23 @@ export class Home {
     this.activeCompound = false;
   }
 
-  example3() {
+  example4() {
     this.disease = [{ 'index': 1, 'value' : 'Diabetes mellitus, insulin-dependent, 22 (IDDM22)'}, { 'index': 2, 'value' : ''}];
 
     this.countDisease = 2;
     this.activeProtein = false;
     this.activeTanaman = false;
+    this.activeCompound = false;
+  }
+
+  example5() {
+    this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Nicotiana tabacum'}, { 'index': 3, 'value' : ''}];
+    this.countTanaman = 3;
+
+    this.protein = [{ 'index': 1, 'value' : 'six1'}, { 'index': 2, 'value' : ''}];
+    this.countProtein = 2;
+
+    this.activeDisease = false;
     this.activeCompound = false;
   }
 
@@ -459,159 +543,130 @@ export class Home {
     let showCompound = false;
     let showProtein = false;
     let showDisease = false;
-    let showTanamanProtein = false;
 
-    if (this.activeTanaman) {
+    if (this.tanaman.length > 1) {
         this.predictTanaman();
-
+        showTanaman = true;
     }
 
-    if (this.activeProtein) {
+    if (this.compound.length > 1) {
+        this.predictCompound();
+        showCompound = true;
+    }
+
+    if (this.protein.length > 1) {
         this.predictProtein();
-
+        showProtein = true;
     }
 
-    if (this.activeDisease) {
+    if (this.disease.length > 1) {
         this.predictDisease();
-
+        showDisease = true;
     }
 
-    // if (this.activeProtein) {
-    //   this.protein.pop();
-    //   let prot = JSON.stringify(this.protein);
-    //   // tanam.pop();
-    //   console.log(prot);
-    //
-    //   this.http.post('http://localhost/ijah/protein-disease.php', prot)
-    //     .map(res => res.json())
-    //     .subscribe(data => {
-    //       for(let i = 0; i < data.length; i++) {
-    //         this.dataLocal.push(data[i]);
-    //       }
-    //
-    //       console.log(this.dataLocal);
-    //       showProtein = true;
-    //
-    //       if (showTanaman && showProtein) {
-    //         localStorage.setItem('data', JSON.stringify(this.dataLocal));
-    //         this.show = true;
-    //       }
-    //
-    //       // console.log
-    //     })
-    //
-    //   console.log(prot);
-    // }
-    //
-    // if (this.activeDisease) {
-    //   this.disease.pop();
-    //   let dis = JSON.stringify(this.disease);
-    //   // tanam.pop();
-    //
-    //   this.http.post('http://localhost/ijah/disease-protein.php', dis)
-    //     .map(res => res.json())
-    //     .subscribe(data => {
-    //       for(let i = 0; i < data.length; i++) {
-    //         this.dataLocal.push(data[i]);
-    //       }
-    //
-    //       // console.log(this.dataLocal);
-    //       // showDisease = true;
-    //       //
-    //       // if (showTanaman && showProtein) {
-    //       //   localStorage.setItem('data', JSON.stringify(this.dataLocal));
-    //       //   this.show = true;
-    //       // }
-    //
-    //     })
-    //
-    //   console.log(dis);
-    // }
-    //
-    // if (this.activeCompound) {
-    //   this.compound.pop();
-    //   let comp = JSON.stringify(this.compound);
-    //   // tanam.pop();
-    //
-    //   // this.http.post('http://localhost/ijah/disease-protein.php', comp)
-    //   //   .map(res => res.json())
-    //   //   .subscribe(data => {
-    //   //     for(let i = 0; i < data.length; i++) {
-    //   //       this.dataLocal.push(data[i]);
-    //   //     }
-    //   //
-    //   //     // console.log(this.dataLocal);
-    //   //     // showDisease = true;
-    //   //     //
-    //   //     // if (showTanaman && showProtein) {
-    //   //     //   localStorage.setItem('data', JSON.stringify(this.dataLocal));
-    //   //     //   this.show = true;
-    //   //     // }
-    //   //
-    //   //   })
-    //
-    //   console.log(comp);
-    // }
+    var inter = setInterval(() => {
 
+      if (showTanaman && !showProtein && !showDisease) {
+        if (this.pTanaman) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
 
+      else if (showCompound && !showProtein && !showDisease) {
+        if(this.pCompound) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
 
-    // let tanam = JSON.stringify(this.tanaman);
-    // // tanam.pop();
-    //
-    // let creds = [];
-    //
-    // if(this.activeTanaman) {
-    //   this.tanaman.pop();
-    //   for (let i = 0; i < this.tanaman.length; i++) {
-    //     // creds.push(this.tanaman[i]);
-    //     creds.push({'tanaman': this.tanaman[i]['value'], 'disease': this.disease[0]['value']});
-    //     // console.log(creds);
-    //     // console.log(this.tanaman[i]['value']);
-    //   }
-    //
-    //   console.log(JSON.stringify(creds));
-    //
-    //   this.http.post('http://localhost/ijah/test.php', JSON.stringify(creds))
-    //     .map(res => res.json())
-    //     .subscribe(data => {
-    //       for(let i = 0; i < data.length; i++) {
-    //         this.dataLocal.push(data[i]);
-    //       }
-    //
-    //         // console.log(this.dataLocal);
-    //         showProtein = true;
-    //
-    //         localStorage.setItem('data', JSON.stringify(this.dataLocal));
-    //         this.show = true;
-    //
-    //       // console.log
-    //     })
-    // }
+      else if (showTanaman && showProtein) {
+        if(this.pTanaman && this.pProtein) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
 
-    // if(this.activeCompound) {
-    //   this.compound.pop();
-    //   for (let i = 0; i < this.compound.length; i++) {
-    //     // creds.push(this.compound[i]);
-    //     creds.push({'compound': this.compound[i]['value']});
-    //   }
-    // }
-    //
-    // if(this.activeProtein) {
-    //   this.protein.pop();
-    //   for (let i = 0; i < this.protein.length; i++) {
-    //     // creds.push(this.protein[i]);
-    //     creds.push({'protein': this.protein[i]['value']});
-    //   }
-    // }
-    //
-    // if(this.activeDisease) {
-    //   this.disease.pop();
-    //   for (let i = 0; i < this.tanaman.length; i++) {
-    //     // creds.push(this.tanaman[i]);
-    //     creds.push({'disease': this.disease[i]['value']});
-    //   }
-    // }
+      else if (showTanaman && showDisease) {
+        if (this.pTanaman && this.pDisease) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
 
+      else if (showCompound && showProtein) {
+        if (this.pCompound && this.pProtein) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showCompound && showDisease) {
+        if (this.pCompound && this.pDisease) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showProtein && !showTanaman && !showCompound) {
+        if (this.pProtein) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showDisease && !showTanaman && !showCompound) {
+        if (this.pDisease) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showProtein && showTanaman) {
+        if (this.pProtein && this.pTanaman) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showProtein && showCompound) {
+        if (this.pProtein && this.pCompound) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showDisease && showTanaman) {
+        if (this.pDisease && this.pTanaman) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      else if (showDisease && showCompound) {
+        if (this.pDisease && this.pCompound) {
+          localStorage.setItem('data', JSON.stringify(this.dataLocal));
+          this.show = true;
+          clearInterval(inter);
+        }
+      }
+
+      // localStorage.setItem('data', JSON.stringify(this.dataLocal));
+      // this.show = true;
+      // console.log('2 detik');
+      // clearInterval(inter);
+    }, 500);
 
 
   }
