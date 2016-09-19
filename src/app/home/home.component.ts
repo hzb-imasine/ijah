@@ -427,31 +427,35 @@ export class Home {
 
         if (plantCompound.length != 0) {
 
-          for (let i = 0; i < proteinDisease.length; i++) {
-            if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
-              let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
-              this.dataLocal.push(push);
+          for (let i = 0; i < 20; i++) {
+            for (let j = 0; j < compoundProtein.length; j++) {
+
+              if (plantCompound[i][1] == compoundProtein[j][0]) {
+
+                if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
+                  let push = [plantCompound[i][0], plantCompound[i][1], 1];
+                  this.dataLocal.push(push);
+                }
+
+                if (this.check(this.dataLocal, compoundProtein[j][0], compoundProtein[j][1])) {
+                  let push = [compoundProtein[j][0], compoundProtein[j][1], 1];
+                  this.dataLocal.push(push);
+                }
+
+              }
+
             }
           }
 
+        }
 
-          for(let i = 0; i < compoundProtein.length / (this.disease.length * 5); i++) {
+        else {
+
+          for(let i = 0; i < 20; i++) {
             for (let j = 0; j < this.dataLocal.length; j++) {
               if (compoundProtein[i][1] == this.dataLocal[j][0]) {
                 if (this.check(this.dataLocal, compoundProtein[i][0], compoundProtein[i][1])) {
                   let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
-                  this.dataLocal.push(push);
-                }
-              }
-            }
-          }
-
-
-          for(let i = 0; i < plantCompound.length / (this.disease.length * 25); i++) {
-            for (let j = 0; j < this.dataLocal.length; j++) {
-              if (plantCompound[i][1] == this.dataLocal[j][0]) {
-                if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
-                  let push = [plantCompound[i][0], plantCompound[i][1], 1 ];
                   this.dataLocal.push(push);
                 }
               }
@@ -460,26 +464,12 @@ export class Home {
 
         }
 
-        else {
 
-          for (let i = 0; i < proteinDisease.length; i++) {
-            if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
-              let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
-              this.dataLocal.push(push);
-            }
+        for (let i = 0; i < proteinDisease.length; i++) {
+          if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+            let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+            this.dataLocal.push(push);
           }
-
-          for(let i = 0; i < compoundProtein.length / (this.disease.length * 5); i++) {
-            for (let j = 0; j < this.dataLocal.length; j++) {
-              if (compoundProtein[i][1] == this.dataLocal[j][0]) {
-                if (this.check(this.dataLocal, compoundProtein[i][0], compoundProtein[i][1])) {
-                  let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
-                  this.dataLocal.push(push);
-                }
-              }
-            }
-          }
-
         }
 
 
@@ -491,6 +481,7 @@ export class Home {
   }
 
   example1() {
+    this.reset();
     this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Rosmarinus officinalis'}, { 'index': 3, 'value' : ''}];
 
     this.countTanaman = 3;
@@ -500,6 +491,7 @@ export class Home {
   }
 
   example2() {
+    this.reset();
     this.compound = [{ 'index': 1, 'value' : 'Kaempferol'}, { 'index': 2, 'value' : ''}];
 
     this.countCompound = 2;
@@ -509,6 +501,7 @@ export class Home {
   }
 
   example3() {
+    this.reset();
     this.protein = [{ 'index': 1, 'value' : 'Sialate O-acetylesterase'}, { 'index': 2, 'value' : 'Guanine nucleotide-binding protein G(s) subunit alpha isoforms short'}, { 'index': 3, 'value' : ''}];
 
     this.countProtein = 3;
@@ -518,6 +511,7 @@ export class Home {
   }
 
   example4() {
+    this.reset();
     this.disease = [{ 'index': 1, 'value' : 'Diabetes mellitus, insulin-dependent, 22 (IDDM22)'}, { 'index': 2, 'value' : ''}];
 
     this.countDisease = 2;
@@ -527,6 +521,7 @@ export class Home {
   }
 
   example5() {
+    this.reset();
     this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Nicotiana tabacum'}, { 'index': 3, 'value' : ''}];
     this.countTanaman = 3;
 
@@ -535,6 +530,18 @@ export class Home {
 
     this.activeDisease = false;
     this.activeCompound = false;
+  }
+
+  example6() {
+    this.reset();
+    this.compound = [{ 'index': 1, 'value' : 'Kaempferol'}, { 'index': 2, 'value' : ''}];
+    this.countCompound = 2;
+
+    this.disease = [{ 'index': 1, 'value' : 'Breast cancer (BC)'}, { 'index': 2, 'value' : ''}];
+    this.countDisease = 2;
+
+    this.activeTanaman = false;
+    this.activeProtein = false;
   }
 
   predict() {
@@ -666,7 +673,7 @@ export class Home {
       // this.show = true;
       // console.log('2 detik');
       // clearInterval(inter);
-    }, 500);
+    }, 100);
 
 
   }
