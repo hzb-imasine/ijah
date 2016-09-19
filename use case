@@ -1,0 +1,60 @@
+use case :
+
+1. drug - target :
+
+misal : plant - protein.
+
+step :
+- plant cari compound.
+- protein cari disease.
+
+- kalau compound punya relasi dengan protein, weight nya 1.
+- kalau ga punya, panggil prediktor.
+
+misal : plant - disease
+
+step :
+- plant cari compound
+- disease cari protein
+
+- kalau compound punya relasi dengan protein, weight nya 1.
+- kalau ga punya, panggil prediktor
+
+
+
+2. drug :
+
+misal : plant
+
+step :
+- plant cari compound
+- compound cari protein
+
+- kalau ada relasi, weight nya 1
+- kalau tidak ada, panggil prediktor
+
+
+3. target :
+
+misal : protein
+
+step :
+- protein cari disease.
+- cari compound yang relasi dengan protein.
+
+- kalau ada relasi, weight nya 1.
+- kalau tidak ada, panggil prediktor.
+
+
+
+
+---------------------------------------
+BETA DEPLOY
+
+
+Host in :
+
+http://apps.cs.ipb.ac.id/ijah/v2beta
+
+EXAMPLE :
+USE CASE 1, 2, 3
