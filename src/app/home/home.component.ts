@@ -66,25 +66,25 @@ export class Home {
     this.protein = [{ 'index': this.countProtein, 'value' : ''}];
     this.disease = [{ 'index': this.countDisease, 'value' : ''}];
 
-    this.http.get('api/plant.php')
+    this.http.get('http://ijah.agri.web.id/api/plant.php')
       .map(res => res.json())
       .subscribe(data => {
         this.tanamanSearch = data;
       })
 
-    this.http.get('api/compound.php')
+    this.http.get('http://ijah.agri.web.id/api/compound.php')
       .map(res => res.json())
       .subscribe(data => {
         this.compoundSearch = data;
       })
 
-    this.http.get('api/protein.php')
+    this.http.get('http://ijah.agri.web.id/api/protein.php')
       .map(res => res.json())
       .subscribe(data => {
         this.proteinSearch = data;
       })
 
-    this.http.get('api/disease.php')
+    this.http.get('http://ijah.agri.web.id/api/disease.php')
       .map(res => res.json())
       .subscribe(data => {
         this.diseaseSearch = data;
@@ -186,7 +186,7 @@ export class Home {
     let tanam = JSON.stringify(this.tanaman);
     // console.log(tanam);
 
-    this.http.post('api/zz-plant.php', tanam)
+    this.http.post('http://ijah.agri.web.id/api/zz-plant.php', tanam)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -269,7 +269,7 @@ export class Home {
     let prot = JSON.stringify(this.protein);
     // console.log(tanam);
 
-    this.http.post('api/zz-protein.php', prot)
+    this.http.post('http://ijah.agri.web.id/api/zz-protein.php', prot)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -340,7 +340,7 @@ export class Home {
     let comp = JSON.stringify(this.compound);
     // console.log(tanam);
 
-    this.http.post('api/zz-compound.php', comp)
+    this.http.post('http://ijah.agri.web.id/api/zz-compound.php', comp)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -414,7 +414,7 @@ export class Home {
     let dis = JSON.stringify(this.disease);
     // console.log(tanam);
 
-    this.http.post('api/zz-disease.php', dis)
+    this.http.post('http://ijah.agri.web.id/api/zz-disease.php', dis)
       .map(res => res.json())
       .subscribe(data => {
 
