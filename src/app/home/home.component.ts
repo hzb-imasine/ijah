@@ -6,13 +6,14 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { Http } from '@angular/http';
+import {SimplePageScroll} from 'ng2-simple-page-scroll';
 
 @Component({
   selector: 'home',
   providers: [
   ],
   directives: [
-
+    SimplePageScroll
   ],
   pipes: [ ],
   styleUrls: [ './home.style.css' ],
@@ -65,25 +66,25 @@ export class Home {
     this.protein = [{ 'index': this.countProtein, 'value' : ''}];
     this.disease = [{ 'index': this.countDisease, 'value' : ''}];
 
-    this.http.get('http://localhost/ijah/plant.php')
+    this.http.get('api/plant.php')
       .map(res => res.json())
       .subscribe(data => {
         this.tanamanSearch = data;
       })
 
-    this.http.get('http://localhost/ijah/compound.php')
+    this.http.get('api/compound.php')
       .map(res => res.json())
       .subscribe(data => {
         this.compoundSearch = data;
       })
 
-    this.http.get('http://localhost/ijah/protein.php')
+    this.http.get('api/protein.php')
       .map(res => res.json())
       .subscribe(data => {
         this.proteinSearch = data;
       })
 
-    this.http.get('http://localhost/ijah/disease.php')
+    this.http.get('api/disease.php')
       .map(res => res.json())
       .subscribe(data => {
         this.diseaseSearch = data;
@@ -185,7 +186,7 @@ export class Home {
     let tanam = JSON.stringify(this.tanaman);
     // console.log(tanam);
 
-    this.http.post('http://localhost/ijah/zz-plant.php', tanam)
+    this.http.post('api/zz-plant.php', tanam)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -268,7 +269,7 @@ export class Home {
     let prot = JSON.stringify(this.protein);
     // console.log(tanam);
 
-    this.http.post('http://localhost/ijah/zz-protein.php', prot)
+    this.http.post('api/zz-protein.php', prot)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -339,7 +340,7 @@ export class Home {
     let comp = JSON.stringify(this.compound);
     // console.log(tanam);
 
-    this.http.post('http://localhost/ijah/zz-compound.php', comp)
+    this.http.post('api/zz-compound.php', comp)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -413,7 +414,7 @@ export class Home {
     let dis = JSON.stringify(this.disease);
     // console.log(tanam);
 
-    this.http.post('http://localhost/ijah/zz-disease.php', dis)
+    this.http.post('api/zz-disease.php', dis)
       .map(res => res.json())
       .subscribe(data => {
 
@@ -482,9 +483,9 @@ export class Home {
 
   example1() {
     this.reset();
-    this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Rosmarinus officinalis'}, { 'index': 3, 'value' : ''}];
+    this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Rosmarinus officinalis'}, { 'index': 4, 'value' : 'Vitis spp.'}, { 'index': 3, 'value' : ''}];
 
-    this.countTanaman = 3;
+    this.countTanaman = 4;
     this.activeCompound = false;
     this.activeProtein = false;
     this.activeDisease = false;

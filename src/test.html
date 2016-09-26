@@ -4,23 +4,54 @@
 </head>
 <body>
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+ <script type="text/javascript" src="assets/js/jquery.js"></script>
+ <script type="text/javascript" src="assets/js/h2c/html2canvas.js"></script>
 
-<div class="text-center" id="sankey_multiple" style="height: 500px;"></div>
+<div id="html-content-holder" onload="render()">
+  <div class="text-center graph" id="sankey_multiple" style="height: 600px; background-color:white;"></div>
+</div>
+
+<!-- <input id="btn-Preview-Image" type="button" value="Preview" /> --><br />
+<a id="btn-Convert-Html2Image" href="#" class="btn btn-primary col-md-2 col-md-offset-5">Download As PNG</a>
+
 <br />
 <div class="row">
-  <div class="text-center col-md-4">
-    <button class="btn btn-success">Download As PNG</button>
-  </div>
+  <!-- <div class="text-center col-md-4 col-md-offset-4">
+    <a id="btn-Convert-Html2Image" href="#" class="btn btn-primary">Download
+    </a>
+  </div> -->
 
-  <div class="text-center col-md-4">
+  <!-- <div class="text-center col-md-4">
     <button class="btn btn-success">Download As PDF</button>
   </div>
 
   <div class="text-center col-md-4">
     <button class="btn btn-success">Download As CSV</button>
-  </div>
+  </div> -->
 
 </div>
+
+<script>
+var element = $("#html-content-holder"); // global variable
+var getCanvas; // global variable
+
+  $("#btn-Convert-Html2Image").on('click', function () {
+
+    html2canvas(element, {
+    onrendered: function (canvas) {
+           $("#previewImage").append(canvas);
+           getCanvas = canvas;
+        }
+    });
+
+    var imgageData = getCanvas.toDataURL("image/png");
+    // Now browser starts downloading it instead of just showing it
+    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+    $("#btn-Convert-Html2Image").attr("download", "graph_predict.png").attr("href", newData);
+
+});
+
+</script>
 
 <script async type="text/javascript">
   var init = function() {
