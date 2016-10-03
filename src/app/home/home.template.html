@@ -1,5 +1,3 @@
-<!-- <h1>Hello From Home</h1> -->
-
 <div class="row feature-box">
     <div class="cnt-title col-sm-12 col-md-12">
      <h1>Ijah Webserver</h1>
@@ -7,170 +5,177 @@
     </div>
 </div>
 
-<div class="row" *ngIf="!show">
-  <p class="contoh col-md-12 text-center">
-    <button class="btn btn-default"(click)="example1()">Example #1</button>
-    <button class="btn btn-warning"(click)="example2()">Example #2</button>
-    <button class="btn btn-success"(click)="example3()">Example #3</button>
-    <button class="btn btn-primary"(click)="example4()">Example #4</button>
-    <button class="btn btn-danger "(click)="example5()">Example #5</button>
-    <button class="btn btn-info "(click)="example6()">Example #6</button>
-  </p>
-  <div class="col-md-6">
-    <div class="row text-center">
-      <h3>
-        Drug-Side
-      </h3>
-    </div>
-    <div class="col-md-1"></div>
+<div>
+  <div class="loading text-center" *ngIf="click">
+    <div class="bounceball"></div>
+    <div class="text">PROCESSING...</div>
+  </div>
+</div>
 
-    <div class="col-md-5">
-      <div *ngIf="activeTanaman">
-        <p>
-          Plant
-        </p>
-        <div *ngFor="let t of tanaman">
-          <template #customTanaman let-model="item" let-index="index">
-            <h5>{{model.name}}</h5>
-          </template>
-          <input [(ngModel)]="t.value"
-                 [typeahead]="tanamanSearch"
-                 [typeaheadItemTemplate]="customTanaman"
-                 [typeaheadOptionField]="'name'"
-                 [typeaheadOptionsLimit]="7"
-                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                 class="form-control verticalLine1"
-                 placeholder="Plant"
-                 (focus)="focusTanaman(t.index)">
-          <!-- <input class="form-control verticalLine1" (focus)="focusTanaman(t.index)" placeholder="Tanaman" [(ngModel)]="t.value" /> {{t.value}} -->
+<div *ngIf="!click">
+
+  <div class="row" *ngIf="!show">
+    <p class="contoh col-md-12 text-center">
+      <button class="btn btn-default"(click)="example1()">Example #1</button>
+      <button class="btn btn-warning"(click)="example2()">Example #2</button>
+      <button class="btn btn-success"(click)="example3()">Example #3</button>
+      <button class="btn btn-primary"(click)="example4()">Example #4</button>
+      <button class="btn btn-danger "(click)="example5()">Example #5</button>
+      <button class="btn btn-info "(click)="example6()">Example #6</button>
+    </p>
+    <div class="col-md-6">
+      <div class="row text-center">
+        <h3>
+          Drug-Side
+        </h3>
+      </div>
+      <div class="col-md-1"></div>
+
+      <div class="col-md-5">
+        <div *ngIf="activeTanaman">
+          <p>
+            Plant
+          </p>
+          <div *ngFor="let t of tanaman">
+            <template #customTanaman let-model="item" let-index="index">
+              <h5>{{model.name}}</h5>
+            </template>
+            <input [(ngModel)]="t.value"
+                   [typeahead]="tanamanSearch"
+                   [typeaheadItemTemplate]="customTanaman"
+                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionsLimit]="7"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   class="form-control verticalLine1"
+                   placeholder="Plant"
+                   (focus)="focusTanaman(t.index)">
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="col-md-5">
-      <div *ngIf="activeCompound">
-        <p>
-          Compound
-        </p>
-        <div *ngFor="let c of compound">
-          <template #customCompound let-model="item" let-index="index">
-            <h5>{{model.name}}</h5>
-          </template>
-          <input [(ngModel)]="c.value"
-                 [typeahead]="compoundSearch"
-                 [typeaheadItemTemplate]="customCompound"
-                 [typeaheadOptionField]="'name'"
-                 [typeaheadOptionsLimit]="7"
-                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                 class="form-control verticalLine2"
-                 placeholder="Compound"
-                 (focus)="focusCompound(c.index)">
-          <!-- <input class="form-control verticalLine2" (focus)="focusCompound(c.index)" placeholder="Compound" [(ngModel)]="c.value" /> {{c.value}} -->
+      <div class="col-md-5">
+        <div *ngIf="activeCompound">
+          <p>
+            Compound
+          </p>
+          <div *ngFor="let c of compound">
+            <template #customCompound let-model="item" let-index="index">
+              <h5>{{model.name}}</h5>
+            </template>
+            <input [(ngModel)]="c.value"
+                   [typeahead]="compoundSearch"
+                   [typeaheadItemTemplate]="customCompound"
+                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionsLimit]="7"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   class="form-control verticalLine2"
+                   placeholder="Compound"
+                   (focus)="focusCompound(c.index)">
+          </div>
         </div>
       </div>
+
+      <div class="col-md-1"></div>
     </div>
 
-    <div class="col-md-1"></div>
-  </div>
+    <div class="verticalLineA col-md-6">
+      <div class="row text-center">
+        <h3>
+          Target-Side
+        </h3>
+      </div>
+      <div class="col-md-1"></div>
 
-  <div class="verticalLineA col-md-6">
-    <div class="row text-center">
-      <h3>
-        Target-Side
-      </h3>
-    </div>
-    <div class="col-md-1"></div>
-
-    <div class="col-md-5" >
-      <div *ngIf="activeProtein">
-        <p>
-          Protein
-        </p>
-        <div *ngFor="let p of protein">
-          <template #customProtein let-model="item" let-index="index">
-            <h5>{{model.name}}</h5>
-          </template>
-          <input [(ngModel)]="p.value"
-                 [typeahead]="proteinSearch"
-                 [typeaheadItemTemplate]="customProtein"
-                 [typeaheadOptionField]="'name'"
-                 [typeaheadOptionsLimit]="7"
-                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                 class="form-control verticalLine3"
-                 placeholder="Protein"
-                 (focus)="focusProtein(p.index)">
-          <!-- <input class="form-control verticalLine3" (focus)="focusProtein(p.index)" placeholder="Protein" [(ngModel)]="p.value" /> {{p.value}} -->
+      <div class="col-md-5" >
+        <div *ngIf="activeProtein">
+          <p>
+            Protein
+          </p>
+          <div *ngFor="let p of protein">
+            <template #customProtein let-model="item" let-index="index">
+              <h5>{{model.name}}</h5>
+            </template>
+            <input [(ngModel)]="p.value"
+                   [typeahead]="proteinSearch"
+                   [typeaheadItemTemplate]="customProtein"
+                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionsLimit]="7"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   class="form-control verticalLine3"
+                   placeholder="Protein"
+                   (focus)="focusProtein(p.index)">
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="col-md-5">
-      <div *ngIf="activeDisease">
-        <p>
-          Disease
-        </p>
-        <div *ngFor="let d of disease">
-          <template #customDisease let-model="item" let-index="index">
-            <h5>{{model.name}}</h5>
-          </template>
-          <input [(ngModel)]="d.value"
-                 [typeahead]="diseaseSearch"
-                 [typeaheadItemTemplate]="customDisease"
-                 [typeaheadOptionField]="'name'"
-                 [typeaheadOptionsLimit]="7"
-                 (typeaheadOnSelect)="typeaheadOnSelect($event)"
-                 class="form-control verticalLine4"
-                 placeholder="Disease"
-                 (focus)="focusDisease(d.index)">
-          <!-- <input class="form-control verticalLine4" (focus)="focusDisease(d.index)" placeholder="Disease" [(ngModel)]="d.value" /> {{d.value}} -->
+      <div class="col-md-5">
+        <div *ngIf="activeDisease">
+          <p>
+            Disease
+          </p>
+          <div *ngFor="let d of disease">
+            <template #customDisease let-model="item" let-index="index">
+              <h5>{{model.name}}</h5>
+            </template>
+            <input [(ngModel)]="d.value"
+                   [typeahead]="diseaseSearch"
+                   [typeaheadItemTemplate]="customDisease"
+                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionsLimit]="7"
+                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   class="form-control verticalLine4"
+                   placeholder="Disease"
+                   (focus)="focusDisease(d.index)">
+          </div>
         </div>
       </div>
+
+      <div class="col-md-1"></div>
     </div>
-
-    <div class="col-md-1"></div>
   </div>
+
+  <br />
+
+  <div class="row" *ngIf="!show">
+    <div class="col-md-4 col-md-offset-4">
+      <a>
+        <button class="form-control btn btn-success" (click)="predict()"> Search and Predict</button>
+      </a>
+    </div>
+  </div>
+  <br />
+  <div class="row" *ngIf="!show">
+    <div class="col-md-2 col-md-offset-5">
+      <button class="form-control btn btn-danger" (click)="reset()">Reset</button>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="show">
+    <div class="col-md-2 col-md-offset-5">
+      <button class="form-control btn btn-danger" (click)="reset()">Reset</button>
+    </div>
+  </div>
+  <br />
+
+  <div class="row" *ngIf="show">
+    <div class="text-left col-md-3">
+      <b>Plants</b>
+    </div>
+    <div class="text-center col-md-3">
+      <b>Compounds</b>
+    </div>
+    <div class="text-center col-md-3">
+      <b>Proteins</b>
+    </div>
+    <div class="col-md-3 text-right">
+      <b>Diseases</b>
+    </div>
+  </div>
+
+  <iframe id="graph" class="text-center" *ngIf="show" src="test.html" height="720px" width="100%" frameBorder="0"></iframe>
 </div>
 
-<br />
-
-<div class="row" *ngIf="!show">
-  <div class="col-md-4 col-md-offset-4">
-    <a simplePageScroll href="#graph">
-    <button class="form-control btn btn-success" (click)="predict()"> Predict</button>
-    </a>
-  </div>
-</div>
-<br />
-<div class="row" *ngIf="!show">
-  <div class="col-md-2 col-md-offset-5">
-    <button class="form-control btn btn-danger" (click)="reset()">Reset</button>
-  </div>
-</div>
-
-
-<div class="row" *ngIf="show">
-  <div class="col-md-2 col-md-offset-5">
-    <button class="form-control btn btn-danger" (click)="reset()">Reset</button>
-  </div>
-</div>
-<br />
-
-<div class="row" *ngIf="show">
-  <div class="text-left col-md-3">
-    <b>Plants</b>
-  </div>
-  <div class="text-center col-md-3">
-    <b>Compounds</b>
-  </div>
-  <div class="text-center col-md-3">
-    <b>Proteins</b>
-  </div>
-  <div class="col-md-3 text-right">
-    <b>Diseases</b>
-  </div>
-</div>
-
-<iframe id="graph" class="text-center" *ngIf="show" src="test.html" height="720px" width="100%" frameBorder="0"></iframe>
 
 <!-- <div class="row">
   <div hidden>Chart type: <chart-selector (select)="selectType($event)"></chart-selector></div>

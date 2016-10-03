@@ -1,0 +1,33 @@
+COMPOUND DATABASE :
+
+compound_id
+kegg_id
+knapsack_id
+cheby_id
+pubchem_id
+cas_id
+compound_name
+smiles
+
+PLANT DATABASE :
+
+plant_id
+plant_name
+plant_indo
+
+
+DISEASE DATABASE :
+
+disease_id :
+
+Compound :
+Name :
+Formula :
+C_ID : id_knapsack
+InChiKey
+Plant :
+
+
+Plant :
+Name :
+Common Name : common_name

@@ -545,7 +545,9 @@ export class Home {
     this.activeProtein = false;
   }
 
+  click = false;
   predict() {
+    this.click = true;
 
     let showTanaman = false;
     let showCompound = false;
@@ -670,10 +672,8 @@ export class Home {
         }
       }
 
-      // localStorage.setItem('data', JSON.stringify(this.dataLocal));
-      // this.show = true;
-      // console.log('2 detik');
-      // clearInterval(inter);
+      if (this.show) this.click = false;
+
     }, 100);
 
 
