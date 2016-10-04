@@ -59,6 +59,11 @@ export class Home {
   proteinSearch: Array<string>;
   diseaseSearch: Array<string>;
 
+  plant_total;
+  compound_total;
+  protein_total;
+  disease_total;
+
   localState = { value: '' };
   constructor(public appState: AppState, private http: Http) {
     this.tanaman = [{ 'index': this.countTanaman, 'value' : ''}];
@@ -66,25 +71,35 @@ export class Home {
     this.protein = [{ 'index': this.countProtein, 'value' : ''}];
     this.disease = [{ 'index': this.countDisease, 'value' : ''}];
 
-    this.http.get('http://ijah.agri.web.id/api/plant.php')
+    this.http.get('http://ijah.agri.web.id/api/total.php')
+      .map(res => res.json())
+      .subscribe(data => {
+        this.plant_total = data[0]['plant_total'];
+        this.compound_total = data[0]['compound_total'];
+        this.protein_total = data[0]['protein_total'];
+        this.disease_total = data[0]['disease_total'];
+
+      })
+
+    this.http.get('http://localhost/ijah/plant.php')
       .map(res => res.json())
       .subscribe(data => {
         this.tanamanSearch = data;
       })
 
-    this.http.get('http://ijah.agri.web.id/api/compound.php')
+    this.http.get('http://localhost/ijah/compound.php')
       .map(res => res.json())
       .subscribe(data => {
         this.compoundSearch = data;
       })
 
-    this.http.get('http://ijah.agri.web.id/api/protein.php')
+    this.http.get('http://localhost/ijah/protein.php')
       .map(res => res.json())
       .subscribe(data => {
         this.proteinSearch = data;
       })
 
-    this.http.get('http://ijah.agri.web.id/api/disease.php')
+    this.http.get('http://localhost/ijah/disease.php')
       .map(res => res.json())
       .subscribe(data => {
         this.diseaseSearch = data;
@@ -184,19 +199,14 @@ export class Home {
 
     this.tanaman.pop();
     let tanam = JSON.stringify(this.tanaman);
-    // console.log(tanam);
 
-    this.http.post('http://ijah.agri.web.id/api/zz-plant.php', tanam)
+    this.http.post('http://localhost/ijah/zz-plant.php', tanam)
       .map(res => res.json())
       .subscribe(data => {
-
-        // console.log(data);
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
         let proteinDisease = data[2]['protein_disease'];
-
-        // console.log(this.tanaman.length *2);
 
         if (proteinDisease.length != 0) {
 
@@ -233,14 +243,12 @@ export class Home {
         }
 
         else {
-
           for (let i = 0; i < plantCompound.length; i++) {
             if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
               let push = [plantCompound[i][0], plantCompound[i][1], 1];
               this.dataLocal.push(push);
             }
           }
-
           for (let i = 0; i < compoundProtein.length; i++) {
             if (this.check(this.dataLocal, compoundProtein[i][0], compoundProtein[i][1])) {
               let push = [compoundProtein[i][0], compoundProtein[i][1], 1];
@@ -250,16 +258,10 @@ export class Home {
 
         }
 
-
-
-        // console.log(this.dataLocal);
         this.pTanaman = true;
 
-        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        // this.show = true;
       })
 
-    // console.log(tanam);
   }
 
   pProtein = false;
@@ -267,19 +269,14 @@ export class Home {
 
     this.protein.pop();
     let prot = JSON.stringify(this.protein);
-    // console.log(tanam);
 
-    this.http.post('http://ijah.agri.web.id/api/zz-protein.php', prot)
+    this.http.post('http://localhost/ijah/zz-protein.php', prot)
       .map(res => res.json())
       .subscribe(data => {
-
-        // console.log(data);
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
         let proteinDisease = data[2]['protein_disease'];
-
-        // console.log(plantCompound.length);
 
         if (plantCompound.length != 0) {
 
@@ -287,12 +284,10 @@ export class Home {
             for (let j = 0; j < compoundProtein.length; j++) {
 
               if (plantCompound[i][1] == compoundProtein[j][0]) {
-
                 if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
                   let push = [plantCompound[i][0], plantCompound[i][1], 1];
                   this.dataLocal.push(push);
                 }
-
                 if (this.check(this.dataLocal, compoundProtein[j][0], compoundProtein[j][1])) {
                   let push = [compoundProtein[j][0], compoundProtein[j][1], 1];
                   this.dataLocal.push(push);
@@ -315,7 +310,6 @@ export class Home {
 
         }
 
-
         for (let i = 0; i < proteinDisease.length ; i++) {
           if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
             let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
@@ -323,14 +317,9 @@ export class Home {
           }
         }
 
-        // console.log(this.dataLocal);
-
-        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        // this.show = true;
         this.pProtein = true;
       })
 
-    // console.log(tanam);
   }
 
   pCompound = false;
@@ -338,19 +327,15 @@ export class Home {
 
     this.compound.pop();
     let comp = JSON.stringify(this.compound);
-    // console.log(tanam);
 
-    this.http.post('http://ijah.agri.web.id/api/zz-compound.php', comp)
+    this.http.post('http://localhost/ijah/zz-compound.php', comp)
       .map(res => res.json())
       .subscribe(data => {
-
-        // console.log(data);
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
         let proteinDisease = data[2]['protein_disease'];
 
-        // console.log(proteinDisease.length);
 
         if (proteinDisease.length != 0 && compoundProtein.length != 0) {
 
@@ -358,12 +343,10 @@ export class Home {
             for (let j = 0; j < compoundProtein.length; j++) {
 
               if (proteinDisease[i][0] == compoundProtein[j][1]) {
-
                 if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
                   let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
                   this.dataLocal.push(push);
                 }
-
                 if (this.check(this.dataLocal, compoundProtein[j][0], compoundProtein[j][1])) {
                   let push = [compoundProtein[j][0], compoundProtein[j][1], 1];
                   this.dataLocal.push(push);
@@ -398,10 +381,6 @@ export class Home {
           }
         }
 
-        // console.log(this.dataLocal);
-
-        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        // this.show = true;
         this.pCompound = true;
       })
 
@@ -412,19 +391,15 @@ export class Home {
 
     this.disease.pop();
     let dis = JSON.stringify(this.disease);
-    // console.log(tanam);
 
-    this.http.post('http://ijah.agri.web.id/api/zz-disease.php', dis)
+    this.http.post('http://localhost/ijah/zz-disease.php', dis)
       .map(res => res.json())
       .subscribe(data => {
-
-        // console.log(data);
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
         let proteinDisease = data[2]['protein_disease'];
 
-        // console.log(this.tanaman.length *2);
 
         if (plantCompound.length != 0) {
 
@@ -432,12 +407,10 @@ export class Home {
             for (let j = 0; j < compoundProtein.length; j++) {
 
               if (plantCompound[i][1] == compoundProtein[j][0]) {
-
                 if (this.check(this.dataLocal, plantCompound[i][0], plantCompound[i][1])) {
                   let push = [plantCompound[i][0], plantCompound[i][1], 1];
                   this.dataLocal.push(push);
                 }
-
                 if (this.check(this.dataLocal, compoundProtein[j][0], compoundProtein[j][1])) {
                   let push = [compoundProtein[j][0], compoundProtein[j][1], 1];
                   this.dataLocal.push(push);
@@ -473,11 +446,136 @@ export class Home {
           }
         }
 
-
-        // localStorage.setItem('data', JSON.stringify(this.dataLocal));
-        // this.show = true;
         this.pDisease = true;
       })
+
+  }
+
+  predictPlantProtein() {
+
+    this.tanaman.pop();
+    this.protein.pop();
+    let tanam = JSON.stringify(this.tanaman);
+    let prot = JSON.stringify(this.protein);
+
+    let compoundProtein1;
+    let compoundProtein2;
+
+    let plantCompound;
+    let proteinDisease;
+
+    this.http.post('http://localhost/ijah/zz-plant.php', tanam)
+      .map(res => res.json())
+      .subscribe(data => {
+
+        plantCompound = data[0]['plant_compound'];
+        compoundProtein1 = data[1]['compound_protein'];
+
+        this.http.post('http://localhost/ijah/zz-protein.php', prot)
+          .map(res => res.json())
+          .subscribe(data1 => {
+
+            proteinDisease = data1[2]['protein_disease'];
+            compoundProtein2 = data1[1]['compound_protein'];
+
+            console.log(compoundProtein1);
+            console.log(proteinDisease);
+
+            for (let i = 0; i < compoundProtein1.length; i++) {
+
+              for (let j = 0; j < proteinDisease.length; j++) {
+                if (compoundProtein1[i][1] == proteinDisease[j][0]) {
+                  let cp = compoundProtein1[i][0];
+                  if (this.check(this.dataLocal, compoundProtein1[i][0], proteinDisease[j][0])) {
+                    let push = [compoundProtein1[i][0], proteinDisease[j][0], 1];
+                    this.dataLocal.push(push);
+                  }
+
+                  for (let z = 0; z < plantCompound.length; z++) {
+                    if (plantCompound[z][1] == cp) {
+                      if (this.check(this.dataLocal, plantCompound[z][0], plantCompound[z][1])) {
+                        let push = [plantCompound[z][0], plantCompound[z][1], 1];
+                        this.dataLocal.push(push);
+                      }
+                    }
+                  }
+                }
+              }
+
+            }
+
+            for (let i = 0; i < proteinDisease.length; i++) {
+              if (this.check(this.dataLocal, proteinDisease[i][0], proteinDisease[i][1])) {
+                let push = [proteinDisease[i][0], proteinDisease[i][1], 1];
+                this.dataLocal.push(push);
+              }
+            }
+
+            localStorage.setItem('data', JSON.stringify(this.dataLocal));
+            this.show = true;
+
+        })
+
+    })
+
+  }
+
+  predictCompoundDisease() {
+
+    this.compound.pop();
+    this.disease.pop();
+    let com = JSON.stringify(this.compound);
+    let dis = JSON.stringify(this.disease);
+
+    let compoundProtein1;
+    let compoundProtein2;
+
+    let plantCompound;
+    let proteinDisease;
+
+    this.http.post('http://localhost/ijah/zz-compound.php', com)
+      .map(res => res.json())
+      .subscribe(data => {
+
+        plantCompound = data[0]['plant_compound'];
+        compoundProtein1 = data[1]['compound_protein'];
+
+        this.http.post('http://localhost/ijah/zz-disease.php', dis)
+          .map(res => res.json())
+          .subscribe(data1 => {
+
+            proteinDisease = data1[2]['protein_disease'];
+            compoundProtein2 = data1[1]['compound_protein'];
+
+            for (let z = 0; z < 20; z++) {
+              if (this.check(this.dataLocal, plantCompound[z][0], plantCompound[z][1])) {
+                let push = [plantCompound[z][0], plantCompound[z][1], 1];
+                this.dataLocal.push(push);
+              }
+            }
+
+            for (let i = 0; i < compoundProtein1.length; i++) {
+              for (let j = 0; j < proteinDisease.length; j++) {
+                if (compoundProtein1[i][1] == proteinDisease[j][0]) {
+                  if (this.check(this.dataLocal, compoundProtein1[i][0], proteinDisease[j][0])) {
+                    let push = [compoundProtein1[i][0], proteinDisease[j][0], 1];
+                    this.dataLocal.push(push);
+                  }
+
+                  if (this.check(this.dataLocal, proteinDisease[j][0], proteinDisease[j][1])) {
+                    let push = [proteinDisease[j][0], proteinDisease[j][1], 1];
+                    this.dataLocal.push(push);
+                  }
+                }
+              }
+            }
+
+            localStorage.setItem('data', JSON.stringify(this.dataLocal));
+            this.show = true;
+
+        })
+
+    })
 
   }
 
@@ -554,24 +652,40 @@ export class Home {
     let showProtein = false;
     let showDisease = false;
 
-    if (this.tanaman.length > 1) {
-        this.predictTanaman();
-        showTanaman = true;
+    // if (this.tanaman.length > 1 && (this.protein.length <= 1 || this.disease.length <= 1)) {
+    //     this.predictTanaman();
+    //     showTanaman = true;
+    // }
+    //
+    // if (this.compound.length > 1 && (this.protein.length <= 1 || this.disease.length <= 1)) {
+    //     this.predictCompound();
+    //     showCompound = true;
+    // }
+    //
+    // if (this.protein.length > 1 && (this.tanaman.length <= 1 || this.compound.length <= 1)) {
+    //     this.predictProtein();
+    //     showProtein = true;
+    // }
+    //
+    // if (this.disease.length > 1 && (this.tanaman.length <= 1 || this.compound.length <= 1)) {
+    //     this.predictDisease();
+    //     showDisease = true;
+    // }
+
+    if (this.tanaman.length > 1 && this.protein.length > 1) {
+        this.predictPlantProtein();
     }
 
-    if (this.compound.length > 1) {
-        this.predictCompound();
-        showCompound = true;
+    if (this.compound.length > 1 && this.disease.length > 1) {
+        this.predictCompoundDisease();
     }
 
-    if (this.protein.length > 1) {
-        this.predictProtein();
-        showProtein = true;
+    if (this.tanaman.length > 1 && this.disease.length > 1) {
+        // this.predictPlantDisease();
     }
 
-    if (this.disease.length > 1) {
-        this.predictDisease();
-        showDisease = true;
+    if (this.compound.length > 1 && this.protein.length > 1) {
+        // this.predictCompoundProtein();
     }
 
     var inter = setInterval(() => {
