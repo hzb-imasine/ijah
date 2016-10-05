@@ -1,4 +1,3 @@
-
 <div class="row feature-box">
     <div class="cnt-title col-sm-12 col-md-12">
      <h1>Ijah Webserver</h1>
@@ -112,7 +111,7 @@
       <div class="col-md-5">
         <div *ngIf="activeDisease">
           <p>
-            Disease (of {{disease_total}}) 
+            Disease (of {{disease_total}})
           </p>
           <div *ngFor="let d of disease">
             <template #customDisease let-model="item" let-index="index">
@@ -176,7 +175,6 @@
 
   <iframe id="graph" class="text-center" *ngIf="show" src="test.html" height="720px" width="100%" frameBorder="0"></iframe>
 </div>
-
 
 <!-- <div class="row">
   <div hidden>Chart type: <chart-selector (select)="selectType($event)"></chart-selector></div>

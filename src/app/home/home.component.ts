@@ -486,15 +486,15 @@ export class Home {
               for (let j = 0; j < proteinDisease.length; j++) {
                 if (compoundProtein1[i][1] == proteinDisease[j][0]) {
                   let cp = compoundProtein1[i][0];
-                  if (this.check(this.dataLocal, compoundProtein1[i][0], proteinDisease[j][0])) {
-                    let push = [compoundProtein1[i][0], proteinDisease[j][0], 1];
+                  if (this.check(this.dataLocal, compoundProtein1[i][0].substr(0,29), proteinDisease[j][0].substr(0,29))) {
+                    let push = [compoundProtein1[i][0].substr(0,29), proteinDisease[j][0].substr(0,29), 1];
                     this.dataLocal.push(push);
                   }
 
                   for (let z = 0; z < plantCompound.length; z++) {
                     if (plantCompound[z][1] == cp) {
-                      if (this.check(this.dataLocal, plantCompound[z][0], plantCompound[z][1])) {
-                        let push = [plantCompound[z][0], plantCompound[z][1], 1];
+                      if (this.check(this.dataLocal, plantCompound[z][0].substr(0,29), plantCompound[z][1].substr(0,40))) {
+                        let push = [plantCompound[z][0].substr(0,29), plantCompound[z][1].substr(0,40), 1];
                         this.dataLocal.push(push);
                       }
                     }
@@ -548,8 +548,8 @@ export class Home {
             compoundProtein2 = data1[1]['compound_protein'];
 
             for (let z = 0; z < 20; z++) {
-              if (this.check(this.dataLocal, plantCompound[z][0], plantCompound[z][1])) {
-                let push = [plantCompound[z][0], plantCompound[z][1], 1];
+              if (this.check(this.dataLocal, plantCompound[z][0].substr(0,40), plantCompound[z][1].substr(0,29))) {
+                let push = [plantCompound[z][0].substr(0,40), plantCompound[z][1].substr(0,29), 1];
                 this.dataLocal.push(push);
               }
             }
@@ -557,13 +557,13 @@ export class Home {
             for (let i = 0; i < compoundProtein1.length; i++) {
               for (let j = 0; j < proteinDisease.length; j++) {
                 if (compoundProtein1[i][1] == proteinDisease[j][0]) {
-                  if (this.check(this.dataLocal, compoundProtein1[i][0], proteinDisease[j][0])) {
-                    let push = [compoundProtein1[i][0], proteinDisease[j][0], 1];
+                  if (this.check(this.dataLocal, compoundProtein1[i][0].substr(0,29), proteinDisease[j][0].substr(0,29))) {
+                    let push = [compoundProtein1[i][0].substr(0,29), proteinDisease[j][0].substr(0,29), 1];
                     this.dataLocal.push(push);
                   }
 
-                  if (this.check(this.dataLocal, proteinDisease[j][0], proteinDisease[j][1])) {
-                    let push = [proteinDisease[j][0], proteinDisease[j][1], 1];
+                  if (this.check(this.dataLocal, proteinDisease[j][0].substr(0,29), proteinDisease[j][1].substr(0,40))) {
+                    let push = [proteinDisease[j][0].substr(0,29), proteinDisease[j][1].substr(0,40), 1];
                     this.dataLocal.push(push);
                   }
                 }

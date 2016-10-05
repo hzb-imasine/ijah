@@ -5,6 +5,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { removeNgStyles, createNewHosts } from '@angularclass/hmr';
 import { TypeaheadModule } from 'ng2-bootstrap/ng2-bootstrap';
+import { Ng2PageScrollModule } from 'ng2-page-scroll';
 
 
 /*
@@ -42,6 +43,7 @@ const APP_PROVIDERS = [
     FormsModule,
     HttpModule,
     TypeaheadModule,
+    Ng2PageScrollModule,
     RouterModule.forRoot(ROUTES, { useHash: true })
   ],
   providers: [ // expose our Services and Providers into Angular's dependency injection

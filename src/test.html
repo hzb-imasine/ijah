@@ -6,9 +6,12 @@
  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
  <script type="text/javascript" src="assets/js/jquery.js"></script>
  <script type="text/javascript" src="assets/js/h2c/html2canvas.js"></script>
+ <script type="text/javascript" src="assets/js/filesaver.js"></script>
 
-<div id="html-content-holder" onload="render()">
-  <div class="text-center graph" id="sankey_multiple" style="height: 600px; background-color:white;"></div>
+<div onload="render()">
+  <div id="html-content-holder">
+    <div class="text-center graph" id="sankey_multiple" style="height: 600px; background-color:white;"></div>
+  </div>
 </div>
 
 <!-- <input id="btn-Preview-Image" type="button" value="Preview" /> --><br />
@@ -48,6 +51,8 @@ var getCanvas; // global variable
     // Now browser starts downloading it instead of just showing it
     var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
     $("#btn-Convert-Html2Image").attr("download", "graph_predict.png").attr("href", newData);
+
+
 
 });
 
