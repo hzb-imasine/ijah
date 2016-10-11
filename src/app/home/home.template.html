@@ -38,17 +38,21 @@
           </p>
           <div *ngFor="let t of tanaman">
             <template #customTanaman let-model="item" let-index="index">
-              <h5>ID : {{model.pla_id}}, Name : {{model.pla_name}}</h5>
+              <h5>{{model.pla_name}}</h5>
             </template>
             <input [(ngModel)]="t.value"
                    [typeahead]="tanamanSearch"
                    [typeaheadItemTemplate]="customTanaman"
-                   [typeaheadOptionField]="'search'"
+                   [typeaheadOptionField]="'pla_name'"
                    [typeaheadOptionsLimit]="7"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   (typeaheadNoResults)="changeTypeaheadNoResults($event)"
+                   (typeaheadOnSelect)="selectPlant($event, t.index)"
                    class="form-control verticalLine1"
                    placeholder="Plant"
                    (focus)="focusTanaman(t.index)">
+             <div *ngIf="typeaheadNoResults===true" class="" style="">
+               <span style="color:red; font-size:13px">Error: Unavailable</span>
+             </div>
           </div>
         </div>
       </div>
@@ -60,14 +64,14 @@
           </p>
           <div *ngFor="let c of compound">
             <template #customCompound let-model="item" let-index="index">
-              <h5>KnapSack : {{model.com_knapsack_id}}, DrugBank : {{model.com_drugbank_id}}, KEGG : {{model.com_kegg_id}}, Pubchem : {{model.com_pubchem_id}}</h5>
+              <h5>{{model.com_cas_id}} | {{model.com_knapsack_id}} | {{model.com_drugbank_id}} | {{model.com_kegg_id}} | {{model.com_pubchem_id}}</h5>
             </template>
             <input [(ngModel)]="c.value"
                    [typeahead]="compoundSearch"
                    [typeaheadItemTemplate]="customCompound"
                    [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   (typeaheadOnSelect)="selectCompound($event, c.index)"
                    class="form-control verticalLine2"
                    placeholder="Compound"
                    (focus)="focusCompound(c.index)">
@@ -93,14 +97,14 @@
           </p>
           <div *ngFor="let p of protein">
             <template #customProtein let-model="item" let-index="index">
-              <h5>ID : {{model.pro_id}}, Name : {{model.pro_name}}, Uniprot : {{model.pro_uniprot_id}}</h5>
+              <h5>{{model.pro_uniprot_id}} | {{model.pro_name}}</h5>
             </template>
             <input [(ngModel)]="p.value"
                    [typeahead]="proteinSearch"
                    [typeaheadItemTemplate]="customProtein"
                    [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   (typeaheadOnSelect)="selectProtein($event, p.index)"
                    class="form-control verticalLine3"
                    placeholder="Protein"
                    (focus)="focusProtein(p.index)">
@@ -115,14 +119,14 @@
           </p>
           <div *ngFor="let d of disease">
             <template #customDisease let-model="item" let-index="index" class="right-input">
-              <h5>Name : {{model.dis_name}}, OMIM ID : {{model.dis_omim_id}}, ID : {{model.dis_id}}</h5>
+              <h5>{{model.dis_omim_id}} | {{model.dis_name}}</h5>
             </template>
             <input [(ngModel)]="d.value"
                    [typeahead]="diseaseSearch"
                    [typeaheadItemTemplate]="customDisease"
                    [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
-                   (typeaheadOnSelect)="typeaheadOnSelect($event)"
+                   (typeaheadOnSelect)="selectDisease($event, d.index)"
                    class="form-control verticalLine4"
                    placeholder="Disease"
                    (focus)="focusDisease(d.index)">
