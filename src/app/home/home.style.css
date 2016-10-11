@@ -1,3 +1,7 @@
+template .right-input {
+  background-color: red;
+}
+
 .com {
   border-radius: 25px;
 }

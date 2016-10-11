@@ -38,12 +38,12 @@
           </p>
           <div *ngFor="let t of tanaman">
             <template #customTanaman let-model="item" let-index="index">
-              <h5>{{model.name}}</h5>
+              <h5>ID : {{model.pla_id}}, Name : {{model.pla_name}}</h5>
             </template>
             <input [(ngModel)]="t.value"
                    [typeahead]="tanamanSearch"
                    [typeaheadItemTemplate]="customTanaman"
-                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    class="form-control verticalLine1"
@@ -60,12 +60,12 @@
           </p>
           <div *ngFor="let c of compound">
             <template #customCompound let-model="item" let-index="index">
-              <h5>{{model.name}}</h5>
+              <h5>KnapSack : {{model.com_knapsack_id}}, DrugBank : {{model.com_drugbank_id}}, KEGG : {{model.com_kegg_id}}, Pubchem : {{model.com_pubchem_id}}</h5>
             </template>
             <input [(ngModel)]="c.value"
                    [typeahead]="compoundSearch"
                    [typeaheadItemTemplate]="customCompound"
-                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    class="form-control verticalLine2"
@@ -93,12 +93,12 @@
           </p>
           <div *ngFor="let p of protein">
             <template #customProtein let-model="item" let-index="index">
-              <h5>{{model.name}}</h5>
+              <h5>ID : {{model.pro_id}}, Name : {{model.pro_name}}, Uniprot : {{model.pro_uniprot_id}}</h5>
             </template>
             <input [(ngModel)]="p.value"
                    [typeahead]="proteinSearch"
                    [typeaheadItemTemplate]="customProtein"
-                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    class="form-control verticalLine3"
@@ -114,13 +114,13 @@
             Disease (of {{disease_total}})
           </p>
           <div *ngFor="let d of disease">
-            <template #customDisease let-model="item" let-index="index">
-              <h5>{{model.name}}</h5>
+            <template #customDisease let-model="item" let-index="index" class="right-input">
+              <h5>Name : {{model.dis_name}}, OMIM ID : {{model.dis_omim_id}}, ID : {{model.dis_id}}</h5>
             </template>
             <input [(ngModel)]="d.value"
                    [typeahead]="diseaseSearch"
                    [typeaheadItemTemplate]="customDisease"
-                   [typeaheadOptionField]="'name'"
+                   [typeaheadOptionField]="'search'"
                    [typeaheadOptionsLimit]="7"
                    (typeaheadOnSelect)="typeaheadOnSelect($event)"
                    class="form-control verticalLine4"
@@ -175,8 +175,3 @@
 
   <iframe id="graph" class="text-center" *ngIf="show" src="test.html" height="720px" width="100%" frameBorder="0"></iframe>
 </div>
-
-<!-- <div class="row">
-  <div hidden>Chart type: <chart-selector (select)="selectType($event)"></chart-selector></div>
-  <nvd3 [options]="options" [data]="data"></nvd3>
-</div> -->

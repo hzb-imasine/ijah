@@ -66,6 +66,22 @@ export class Home {
 
   localState = { value: '' };
   constructor(public appState: AppState, private http: Http) {
+
+    let pla = [
+      {
+        "pla_id": "PLA00000001",
+        "pla_name": "Aframomum daniellin"
+      },
+      {
+        "pla_id": "PLA00000002",
+        "pla_name": "Astragalus flexuosus"
+      }
+    ];
+
+    let temp = pla[0]['pla_id']+' '+pla[0]['pla_name'];
+    pla[0]['test'] = temp;
+
+    console.log(pla);
     this.tanaman = [{ 'index': this.countTanaman, 'value' : ''}];
     this.compound = [{ 'index': this.countCompound, 'value' : ''}];
     this.protein = [{ 'index': this.countProtein, 'value' : ''}];
@@ -84,24 +100,44 @@ export class Home {
     this.http.get('http://localhost/ijah/plant.php')
       .map(res => res.json())
       .subscribe(data => {
+        for (let i = 0; i < data.length; i++) {
+          let temp = data[i]['pla_id']+' '+data[i]['pla_name'];
+          data[i]['search'] = temp;
+        }
+
         this.tanamanSearch = data;
       })
 
     this.http.get('http://localhost/ijah/compound.php')
       .map(res => res.json())
       .subscribe(data => {
+        for (let i = 0; i < data.length; i++) {
+          let temp = data[i]['com_id']+' '+data[i]['com_cas_id']+' '+data[i]['com_drugbank_id']+' '+data[i]['com_knapsack_id']+' '+data[i]['com_kegg_id']+' '+data[i]['com_pubchem_id'];
+          data[i]['search'] = temp;
+        }
+
         this.compoundSearch = data;
       })
 
     this.http.get('http://localhost/ijah/protein.php')
       .map(res => res.json())
       .subscribe(data => {
+        for (let i = 0; i < data.length; i++) {
+          let temp = data[i]['pro_id']+' '+data[i]['pro_name']+' '+data[i]['pro_uniprot_id']+' '+data[i]['pro_uniprot_abbrv'];
+          data[i]['search'] = temp;
+        }
+
         this.proteinSearch = data;
       })
 
     this.http.get('http://localhost/ijah/disease.php')
       .map(res => res.json())
       .subscribe(data => {
+        for (let i = 0; i < data.length; i++) {
+          let temp = data[i]['dis_id']+' '+data[i]['dis_name']+' '+data[i]['dis_omim_id']+' '+data[i]['dis_uniprot_abbrv'];
+          data[i]['search'] = temp;
+        }
+
         this.diseaseSearch = data;
       })
 
@@ -123,8 +159,6 @@ export class Home {
 
   selectType(e: any){
     this.chartType = e;
-    // this.options = AllOptions[this.chartType];
-    // this.data = AllData[this.chartType];
   }
 
   focusTanaman(index: number) {
