@@ -657,7 +657,8 @@ export class Home {
 
   example1() {
     this.reset();
-    this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Rosmarinus officinalis'}, { 'index': 4, 'value' : 'Vitis spp.'}, { 'index': 3, 'value' : ''}];
+    this.tanaman = [{ 'index': 1, 'value' : 'Datura stramonium'}, { 'index': 2, 'value' : 'Trifolium pratense'}, { 'index': 3, 'value' : 'Acacia senegal'}, { 'index': 4, 'value' : ''}];
+    this.plantSelect = [{"index":1,"value":"PLA00002565"},{"index":2,"value":"PLA00001090"},{"index":3,"value":"PLA00000325"}];
 
     this.countTanaman = 4;
     this.activeCompound = false;
@@ -667,7 +668,8 @@ export class Home {
 
   example2() {
     this.reset();
-    this.compound = [{ 'index': 1, 'value' : 'Kaempferol'}, { 'index': 2, 'value' : ''}];
+    this.compound = [{ 'index': 1, 'value' : '51-55-8 | DB00572 | C00002277 | 174174'}, { 'index': 2, 'value' : '61-50-7 | DB01488 | C00001407 | 6089'}, { 'index': 3, 'value' : '117-39-5 | DB04216 | C00004631 | 5280343'}, { 'index': 4, 'value' : ''}];
+    this.compoundSelect = [{ 'index': 1, 'value' : 'COM00000039'}, { 'index': 2, 'value' : 'COM00000014'}, { 'index': 3, 'value' : 'COM00000058'}];
 
     this.countCompound = 2;
     this.activeDisease = false;
@@ -677,7 +679,8 @@ export class Home {
 
   example3() {
     this.reset();
-    this.protein = [{ 'index': 1, 'value' : 'Sialate O-acetylesterase'}, { 'index': 2, 'value' : 'Guanine nucleotide-binding protein G(s) subunit alpha isoforms short'}, { 'index': 3, 'value' : ''}];
+    this.protein = [{ 'index': 1, 'value' : 'P07437 | Tubulin beta chain'}, { 'index': 2, 'value' : 'P02768 | Serum albumin'}, { 'index': 3, 'value' : ''}];
+    this.proteinSelect = [{ 'index': 1, 'value' : 'PRO00002823'}, { 'index': 2, 'value' : 'PRO00001554'}];
 
     this.countProtein = 3;
     this.activeDisease = false;
@@ -687,9 +690,10 @@ export class Home {
 
   example4() {
     this.reset();
-    this.disease = [{ 'index': 1, 'value' : 'Diabetes mellitus, insulin-dependent, 22 (IDDM22)'}, { 'index': 2, 'value' : ''}];
+    this.disease = [{ 'index': 1, 'value' : '616669 | Immunodeficiency 45'}, { 'index': 2, 'value' : '256000 | Leigh syndrome'}, { 'index': 3, 'value' : '608516 | Major depressive disorder'}], { 'index': 4, 'value' : ''};
+    this.diseaseSelect = [{ 'index': 1, 'value' : 'DIS00004042'}, { 'index': 2, 'value' : 'DIS00000371'}, { 'index': 3, 'value' : 'DIS00000849'}], { 'index': 4, 'value' : ''};
 
-    this.countDisease = 2;
+    this.countDisease = 4;
     this.activeProtein = false;
     this.activeTanaman = false;
     this.activeCompound = false;
@@ -723,19 +727,11 @@ export class Home {
   predict() {
     this.click = true;
 
-    // console.log(this.tanaman);
-    // console.log(this.compound);
-    // console.log(this.protein);
-    // console.log(this.disease);
-
-    //
     let showTanaman = false;
     let showCompound = false;
     let showProtein = false;
     let showDisease = false;
 
-    // this.predictTanaman();
-    //
     if (this.tanaman.length > 1 && (this.protein.length <= 1 || this.disease.length <= 1)) {
         this.predictTanaman();
         showTanaman = true;
