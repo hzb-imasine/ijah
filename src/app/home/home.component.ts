@@ -690,8 +690,8 @@ export class Home {
 
   example4() {
     this.reset();
-    this.disease = [{ 'index': 1, 'value' : '616669 | Immunodeficiency 45'}, { 'index': 2, 'value' : '256000 | Leigh syndrome'}, { 'index': 3, 'value' : '608516 | Major depressive disorder'}], { 'index': 4, 'value' : ''};
-    this.diseaseSelect = [{ 'index': 1, 'value' : 'DIS00004042'}, { 'index': 2, 'value' : 'DIS00000371'}, { 'index': 3, 'value' : 'DIS00000849'}], { 'index': 4, 'value' : ''};
+    this.disease = [{ 'index': 1, 'value' : '616669 | Immunodeficiency 45'}, { 'index': 2, 'value' : '256000 | Leigh syndrome'}, { 'index': 3, 'value' : '608516 | Major depressive disorder'}, { 'index': 4, 'value' : ''}];
+    this.diseaseSelect = [{ 'index': 1, 'value' : 'DIS00004042'}, { 'index': 2, 'value' : 'DIS00000371'}, { 'index': 3, 'value' : 'DIS00000849'}];
 
     this.countDisease = 4;
     this.activeProtein = false;
