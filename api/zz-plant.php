@@ -25,38 +25,74 @@
 
   $array = array();
   foreach ($request as $key) {
-    $value = $key['value'];
+    $index = $key['value'];
+    // $index = 'PLA00001025';
 
-    $cari = mysqli_query($link, "SELECT id FROM tanaman WHERE nama_latin = '$value'");
+    $cari = mysqli_query($link, "SELECT pla_name FROM plant WHERE pla_id = '$index'");
     $rowCari = mysqli_fetch_assoc($cari);
-    $index = $rowCari['id'];
+    $value = $rowCari['pla_name'];
 
-    $query = mysqli_query($link, "SELECT tc.id, c.cid, c.nama FROM `tanaman_compound` as tc, compound as c where tc.cid = c.cid and tc.id = '$index'");
+    $query = mysqli_query($link, "SELECT c.com_id, c.com_cas_id, c.com_knapsack_id, c.com_kegg_id, c.com_drugbank_id FROM `plant_vs_compound` as pc, compound as c where pc.com_id = c.com_id and pc.pla_id = '$index'");
 
     while($row = mysqli_fetch_assoc($query)){
-      $compound = $row['cid'];
-      $namaCompound = $row['nama'];
+      $compound = $row['com_id'];
+      $namaCompound = '';
 
-      if(check($arrayCompound, $value.' (Plant)', $namaCompound.' (Compound)')) {
-        $arrayCompound[] = array($value.' (Plant)', $namaCompound.' (Compound)');
+      $cas = $row['com_cas_id'];
+      $db = $row['com_drugbank_id'];
+      $knapsack = $row['com_knapsack_id'];
+      $kegg = $row['com_kegg_id'];
+
+      if ($cas != 'not-available') {
+        $namaCompound = $namaCompound.'('.$cas.')';
+      }
+      else {
+        $namaCompound = $namaCompound.'()';
       }
 
-      $queryProtein = mysqli_query($link, "SELECT p.gi_number, p.protein_name FROM compound_protein as cp, protein as p where cp.gi_number = p.gi_number and cp.cid = '$compound'");
+      if ($db != 'not-available') {
+        $namaCompound = $namaCompound.'('.$db.')';
+      }
+      else {
+        $namaCompound = $namaCompound.'()';
+      }
+
+      if ($knapsack != 'not-available') {
+        $namaCompound = $namaCompound.'('.$knapsack.')';
+      }
+      else {
+        $namaCompound = $namaCompound.'()';
+      }
+
+      if ($kegg != 'not-available') {
+        $namaCompound = $namaCompound.'('.$kegg.')';
+      }
+      else {
+        $namaCompound = $namaCompound.'()';
+      }
+
+
+      if(check($arrayCompound, $value, $namaCompound)) {
+        $arrayCompound[] = array($value, $namaCompound);
+      }
+
+      $queryProtein = mysqli_query($link, "SELECT p.pro_id, p.pro_name FROM compound_vs_protein as cp, protein as p where cp.pro_id = p.pro_id and cp.com_id = '$compound'");
 
       while($rowProtein = mysqli_fetch_assoc($queryProtein)) {
-          $indexProtein = $rowProtein['gi_number'];
-          $namaProtein = $rowProtein['protein_name'];
+          $indexProtein = $rowProtein['pro_id'];
+          // echo $indexProtein;
+          $namaProtein = $rowProtein['pro_name'];
 
-          if(check($arrayProtein, $namaCompound.' (Compound)', $namaProtein.' (Protein)')) {
-            $arrayProtein[] = array($namaCompound.' (Compound)', $namaProtein.' (Protein)');
+          if(check($arrayProtein, $namaCompound, $namaProtein)) {
+            $arrayProtein[] = array($namaCompound, $namaProtein);
           }
 
-          $queryDisease = mysqli_query($link, "SELECT d.disease_id, d.disease_name, pd.gi_number FROM protein_disease as pd, disease as d where pd.disease_id = d.disease_id and pd.gi_number = '$indexProtein'");
+          $queryDisease = mysqli_query($link, "SELECT d.dis_id, d.dis_name FROM protein_vs_disease as pd, disease as d where pd.dis_id = d.dis_id and pd.pro_id = '$indexProtein'");
 
           while($rowDisease = mysqli_fetch_assoc($queryDisease)) {
 
-            if(check($arrayDisease, $namaProtein.' (Protein)', $rowDisease['disease_name'].' (Disease)')) {
-              $arrayDisease[] = array($namaProtein.' (Protein)', $rowDisease['disease_name'].' (Disease)');
+            if(check($arrayDisease, $namaProtein, $rowDisease['dis_name'])) {
+              $arrayDisease[] = array($namaProtein, $rowDisease['dis_name']);
             }
 
           }
@@ -68,9 +104,6 @@
 
 
   header('Content-type: application/json');
-  // echo count($array);
-  // echo json_encode($arrayProtein);
-
   $final = array();
 
   $final[] = array('plant_compound'=> $arrayCompound);

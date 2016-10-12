@@ -24,40 +24,71 @@
 
   $array = array();
   foreach ($request as $key) {
-    $value = $key['value'];
+    $index = $key['value'];
 
-    $cari = mysqli_query($link, "SELECT cid FROM compound WHERE nama = '$value'");
+    $cari = mysqli_query($link, "SELECT c.com_id, c.com_cas_id, c.com_knapsack_id, c.com_kegg_id, c.com_drugbank_id FROM compound as c WHERE com_id = '$index'");
     $rowCari = mysqli_fetch_assoc($cari);
-    $index = $rowCari['cid'];
 
-    $query = mysqli_query($link, "SELECT t.id, cp.cid, t.nama_latin FROM `tanaman_compound` as cp, tanaman as t where cp.id = t.id and cp.cid = '$index'");
+    $cas = $rowCari['com_cas_id'];
+    $db = $rowCari['com_drugbank_id'];
+    $knapsack = $rowCari['com_knapsack_id'];
+    $kegg = $rowCari['com_kegg_id'];
+
+    if ($cas != 'not-available') {
+      $value = $value.'('.$cas.')';
+    }
+    else {
+      $value = $value.'()';
+    }
+
+    if ($db != 'not-available') {
+      $value = $value.'('.$db.')';
+    }
+    else {
+      $value = $value.'()';
+    }
+
+    if ($knapsack != 'not-available') {
+      $value = $value.'('.$knapsack.')';
+    }
+    else {
+      $value = $value.'()';
+    }
+
+    if ($kegg != 'not-available') {
+      $value = $value.'('.$kegg.')';
+    }
+    else {
+      $value = $value.'()';
+    }
+
+    $query = mysqli_query($link, "SELECT p.pla_id, p.pla_name FROM `plant_vs_compound` as pc, plant as p where pc.pla_id = p.pla_id and pc.com_id = '$index'");
 
     while($row = mysqli_fetch_assoc($query)){
-      $compound = $row['cid'];
-      $namaPlant = $row['nama_latin'];
+      $namaPlant = $row['pla_name'];
 
-      if(check($arrayPlant, $namaPlant.' (Plant)', $value.' (Compound)')) {
-        $arrayPlant[] = array($namaPlant.' (Plant)', $value.' (Compound)');
+      if(check($arrayPlant, $namaPlant, $value)) {
+        $arrayPlant[] = array($namaPlant, $value);
       }
 
     }
 
-    $queryProtein = mysqli_query($link, "SELECT p.gi_number, p.protein_name FROM compound_protein as cp, protein as p where cp.gi_number = p.gi_number and cp.cid = '$index'");
+    $queryProtein = mysqli_query($link, "SELECT p.pro_id, p.pro_name FROM compound_vs_protein as cp, protein as p where cp.pro_id = p.pro_id and cp.com_id = '$index'");
 
     while($rowProtein = mysqli_fetch_assoc($queryProtein)) {
-        $indexProtein = $rowProtein['gi_number'];
-        $namaProtein = $rowProtein['protein_name'];
+        $indexProtein = $rowProtein['pro_id'];
+        $namaProtein = $rowProtein['pro_name'];
 
-        if(check($arrayProtein, $value.' (Compound)', $namaProtein.' (Protein)')) {
-          $arrayProtein[] = array($value.' (Compound)', $namaProtein.' (Protein)');
+        if(check($arrayProtein, $value, $namaProtein)) {
+          $arrayProtein[] = array($value, $namaProtein);
         }
 
-        $queryDisease = mysqli_query($link, "SELECT d.disease_id, d.disease_name, pd.gi_number FROM protein_disease as pd, disease as d where pd.disease_id = d.disease_id and pd.gi_number = '$indexProtein'");
+        $queryDisease = mysqli_query($link, "SELECT d.dis_name FROM protein_vs_disease as pd, disease as d where pd.dis_id = d.dis_id and pd.pro_id = '$indexProtein'");
 
         while($rowDisease = mysqli_fetch_assoc($queryDisease)) {
 
-          if(check($arrayDisease, $namaProtein.' (Protein)', $rowDisease['disease_name'].' (Disease)')) {
-            $arrayDisease[] = array($namaProtein.' (Protein)', $rowDisease['disease_name'].' (Disease)');
+          if(check($arrayDisease, $namaProtein, $rowDisease['dis_name'])) {
+            $arrayDisease[] = array($namaProtein, $rowDisease['dis_name']);
           }
 
         }

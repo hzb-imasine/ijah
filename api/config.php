@@ -18,7 +18,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
     exit(0);
 }
 
-$link = mysqli_connect('210.16.120.17', 'admin_ijah', 'admin_ijah', 'admin_ijah');
-// $link = mysqli_connect('localhost', 'root', 'root', 'ijah_app');
+// $link = mysqli_connect('210.16.120.17', 'admin_ijah', 'admin_ijah', 'admin_ijah');
+// $link = mysqli_connect('localhost', 'root', 'root', 'ijah');
+$link = mysqli_connect('localhost', 'root', 'root', 'new_ijah');
 
 ?>

@@ -2,7 +2,7 @@
 
   include 'config.php';
 
-  $query = mysqli_query($link, 'SELECT disease_id as id, disease_name as name FROM disease');
+  $query = mysqli_query($link, 'SELECT * FROM disease');
 
   $array = array();
   while($row = mysqli_fetch_assoc($query)){

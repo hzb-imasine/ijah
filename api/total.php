@@ -2,7 +2,7 @@
 
   include 'config.php';
 
-  $query = mysqli_query($link, 'SELECT * FROM total_count');
+  $query = mysqli_query($link, 'SELECT * FROM total_view');
 
   $array = array();
   while($row = mysqli_fetch_assoc($query)){

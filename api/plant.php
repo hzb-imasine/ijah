@@ -2,12 +2,11 @@
 
   include 'config.php';
 
-  $query = mysqli_query($link, 'SELECT id, nama_latin as name FROM tanaman');
+  $query = mysqli_query($link, 'SELECT * FROM plant');
 
   $array = array();
   while($row = mysqli_fetch_assoc($query)){
     $array[] = $row;
-
   }
 
   header('Content-type: application/json');
