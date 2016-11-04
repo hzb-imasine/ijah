@@ -11,6 +11,7 @@
     return true;
   }
 
+  mysqli_begin_transaction($link, MYSQLI_TRANS_START_READ_ONLY);
   // get JSON input from HTTP POST
   $postdata = file_get_contents("php://input");
 
@@ -35,9 +36,9 @@
       $indexProtein = $row['pro_id'];
       $namaProtein = $row['pro_name'];
 
-      if(check($arrayDisease, $namaProtein, $value)) {
+      // if(check($arrayDisease, $namaProtein, $value)) {
         $arrayDisease[] = array($namaProtein, $value);
-      }
+      // }
 
       $queryProtein = mysqli_query($link, "SELECT c.com_id, c.com_cas_id, c.com_knapsack_id, c.com_kegg_id, c.com_drugbank_id FROM compound_vs_protein as cp, compound as c where cp.com_id = c.com_id and cp.pro_id = '$indexProtein'");
 
@@ -78,18 +79,18 @@
             $namaCompound = $namaCompound.'()';
           }
 
-          if(check($arrayProtein, $namaCompound, $namaProtein)) {
+          // if(check($arrayProtein, $namaCompound, $namaProtein)) {
             $arrayProtein[] = array($namaCompound, $namaProtein);
-          }
+          // }
 
           $queryDisease = mysqli_query($link, "SELECT p.pla_name FROM `plant_vs_compound` as pc, plant as p where pc.pla_id = p.pla_id and pc.com_id = '$indexCompound'");
 
           while($rowDisease = mysqli_fetch_assoc($queryDisease)) {
             $namaPlant = $rowDisease['pla_name'];
 
-            if(check($arrayPlant, $namaPlant, $namaCompound)) {
+            // if(check($arrayPlant, $namaPlant, $namaCompound)) {
               $arrayPlant[] = array($namaPlant, $namaCompound);
-            }
+            // }
 
           }
 
@@ -98,7 +99,7 @@
     }
   }
 
-
+  mysqli_commit($link);
   header('Content-type: application/json');
 
   $final = array();

@@ -12,6 +12,7 @@
     return true;
   }
 
+  // mysqli_begin_transaction($link, MYSQLI_TRANS_START_READ_ONLY);
   // get JSON input from HTTP POST
   $postdata = file_get_contents("php://input");
 
@@ -36,9 +37,9 @@
     while($row = mysqli_fetch_assoc($query)){
       $namaDisease = $row['dis_name'];
 
-      if(check($arrayDisease, $value, $namaDisease)) {
+      // if(check($arrayDisease, $value, $namaDisease)) {
         $arrayDisease[] = array($value, $namaDisease);
-      }
+      // }
 
     }
 
@@ -79,19 +80,19 @@
         else {
           $namaCompound = $namaCompound.'()';
         }
-
-        if(check($arrayCompound, $namaCompound, $value)) {
+        //
+        // if(check($arrayCompound, $namaCompound, $value)) {
           $arrayCompound[] = array($namaCompound, $value);
-        }
+        // }
 
         $queryDisease = mysqli_query($link, "SELECT p.pla_name FROM `plant_vs_compound` as pc, plant as p where pc.pla_id = p.pla_id and pc.com_id = '$indexCompound'");
 
         while($rowDisease = mysqli_fetch_assoc($queryDisease)) {
           $namaPlant = $rowDisease['pla_name'];
 
-          if(check($arrayPlant, $namaPlant, $namaCompound)) {
+          // if(check($arrayPlant, $namaPlant, $namaCompound)) {
             $arrayPlant[] = array($namaPlant, $namaCompound);
-          }
+          // }
 
         }
 
@@ -99,6 +100,7 @@
 
   }
 
+  // mysqli_commit($link);
   header('Content-type: application/json');
 
   $final = array();

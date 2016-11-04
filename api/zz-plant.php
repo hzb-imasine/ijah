@@ -13,6 +13,8 @@
     return true;
   }
 
+  mysqli_begin_transaction($link, MYSQLI_TRANS_START_READ_ONLY);
+
   // get JSON input from HTTP POST
   $postdata = file_get_contents("php://input");
 
@@ -72,9 +74,9 @@
       }
 
 
-      if(check($arrayCompound, $value, $namaCompound)) {
+      // if(check($arrayCompound, $value, $namaCompound)) {
         $arrayCompound[] = array($value, $namaCompound);
-      }
+      // }
 
       $queryProtein = mysqli_query($link, "SELECT p.pro_id, p.pro_name FROM compound_vs_protein as cp, protein as p where cp.pro_id = p.pro_id and cp.com_id = '$compound'");
 
@@ -83,17 +85,17 @@
           // echo $indexProtein;
           $namaProtein = $rowProtein['pro_name'];
 
-          if(check($arrayProtein, $namaCompound, $namaProtein)) {
+          // if(check($arrayProtein, $namaCompound, $namaProtein)) {
             $arrayProtein[] = array($namaCompound, $namaProtein);
-          }
+          // }
 
           $queryDisease = mysqli_query($link, "SELECT d.dis_id, d.dis_name FROM protein_vs_disease as pd, disease as d where pd.dis_id = d.dis_id and pd.pro_id = '$indexProtein'");
 
           while($rowDisease = mysqli_fetch_assoc($queryDisease)) {
 
-            if(check($arrayDisease, $namaProtein, $rowDisease['dis_name'])) {
+            // if(check($arrayDisease, $namaProtein, $rowDisease['dis_name'])) {
               $arrayDisease[] = array($namaProtein, $rowDisease['dis_name']);
-            }
+            // }
 
           }
 
@@ -102,6 +104,7 @@
     }
   }
 
+  mysqli_commit($link);
 
   header('Content-type: application/json');
   $final = array();
