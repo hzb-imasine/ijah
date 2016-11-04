@@ -152,7 +152,7 @@ export class Home {
   }
 
   public typeaheadOnSelect(e:any):void {
-    console.log('Selected value: ', e.item.com_id);
+    // console.log('Selected value: ', e.item.com_id);
   }
 
   plantSelect = [];
@@ -169,14 +169,14 @@ export class Home {
     if (index != this.countTanaman) {
       this.plantSelect.push({ 'index': this.countTanaman, 'value' : e.item.pla_id});
     }
-    console.log(this.plantSelect);
+    // console.log(this.plantSelect);
   }
 
   selectCompound(e:any, index):void {
     if (index != this.countCompound) {
       this.compoundSelect.push({ 'index': this.countCompound, 'value' : e.item.com_id});
     }
-    console.log(this.compoundSelect);
+    // console.log(this.compoundSelect);
   }
 
   selectProtein(e:any, index):void {
@@ -268,11 +268,12 @@ export class Home {
 
     this.tanaman.pop();
     let tanam = JSON.stringify(this.plantSelect);
-    console.log(tanam);
+    // console.log(tanam);
 
     this.http.post('http://localhost/ijah/zz-plant.php', tanam)
       .map(res => res.json())
       .subscribe(data => {
+        // console.log('dapet');
 
         let plantCompound = data[0]['plant_compound'];
         let compoundProtein = data[1]['compound_protein'];
@@ -310,6 +311,8 @@ export class Home {
             }
           }
 
+          // console.log('save');
+
         }
 
         else {
@@ -343,6 +346,7 @@ export class Home {
 
     this.protein.pop();
     let prot = JSON.stringify(this.proteinSelect);
+    // console.log(prot);
 
     this.http.post('http://localhost/ijah/zz-protein.php', prot)
       .map(res => res.json())
@@ -531,8 +535,8 @@ export class Home {
 
     this.tanaman.pop();
     this.protein.pop();
-    let tanam = JSON.stringify(this.tanaman);
-    let prot = JSON.stringify(this.protein);
+    let tanam = JSON.stringify(this.plantSelect);
+    let prot = JSON.stringify(this.proteinSelect);
 
     let compoundProtein1;
     let compoundProtein2;
@@ -553,9 +557,6 @@ export class Home {
 
             proteinDisease = data1[2]['protein_disease'];
             compoundProtein2 = data1[1]['compound_protein'];
-
-            // console.log(compoundProtein1);
-            // console.log(proteinDisease);
 
             for (let i = 0; i < compoundProtein1.length; i++) {
 
@@ -600,8 +601,8 @@ export class Home {
 
     this.compound.pop();
     this.disease.pop();
-    let com = JSON.stringify(this.compound);
-    let dis = JSON.stringify(this.disease);
+    let com = JSON.stringify(this.compoundSelect);
+    let dis = JSON.stringify(this.diseaseSelect);
 
     let compoundProtein1;
     let compoundProtein2;
@@ -701,11 +702,14 @@ export class Home {
 
   example5() {
     this.reset();
-    this.tanaman = [{ 'index': 1, 'value' : 'Adina racemosa'}, { 'index': 2, 'value' : 'Nicotiana tabacum'}, { 'index': 3, 'value' : ''}];
-    this.countTanaman = 3;
+    this.tanaman = [{ 'index': 1, 'value' : 'Datura stramonium'}, { 'index': 2, 'value' : 'Trifolium pratense'}, { 'index': 3, 'value' : 'Acacia senegal'}, { 'index': 4, 'value' : ''}];
+    this.plantSelect = [{"index":1,"value":"PLA00002565"},{"index":2,"value":"PLA00001090"},{"index":3,"value":"PLA00000325"}];
+    this.countTanaman = 4;
 
-    this.protein = [{ 'index': 1, 'value' : 'six1'}, { 'index': 2, 'value' : ''}];
-    this.countProtein = 2;
+    this.protein = [{ 'index': 1, 'value' : 'P07437 | Tubulin beta chain'}, { 'index': 2, 'value' : 'P02768 | Serum albumin'}, { 'index': 3, 'value' : ''}];
+    this.proteinSelect = [{ 'index': 1, 'value' : 'PRO00002823'}, { 'index': 2, 'value' : 'PRO00001554'}];
+
+    this.countProtein = 3;
 
     this.activeDisease = false;
     this.activeCompound = false;
@@ -713,11 +717,15 @@ export class Home {
 
   example6() {
     this.reset();
-    this.compound = [{ 'index': 1, 'value' : 'Kaempferol'}, { 'index': 2, 'value' : ''}];
+    this.compound = [{ 'index': 1, 'value' : '51-55-8 | DB00572 | C00002277 | 174174'}, { 'index': 2, 'value' : '61-50-7 | DB01488 | C00001407 | 6089'}, { 'index': 3, 'value' : '117-39-5 | DB04216 | C00004631 | 5280343'}, { 'index': 4, 'value' : ''}];
+    this.compoundSelect = [{ 'index': 1, 'value' : 'COM00000039'}, { 'index': 2, 'value' : 'COM00000014'}, { 'index': 3, 'value' : 'COM00000058'}];
+
     this.countCompound = 2;
 
-    this.disease = [{ 'index': 1, 'value' : 'Breast cancer (BC)'}, { 'index': 2, 'value' : ''}];
-    this.countDisease = 2;
+    this.disease = [{ 'index': 1, 'value' : '616669 | Immunodeficiency 45'}, { 'index': 2, 'value' : '256000 | Leigh syndrome'}, { 'index': 3, 'value' : '608516 | Major depressive disorder'}, { 'index': 4, 'value' : ''}];
+    this.diseaseSelect = [{ 'index': 1, 'value' : 'DIS00004042'}, { 'index': 2, 'value' : 'DIS00000371'}, { 'index': 3, 'value' : 'DIS00000849'}];
+
+    this.countDisease = 4;
 
     this.activeTanaman = false;
     this.activeProtein = false;
@@ -737,28 +745,28 @@ export class Home {
         showTanaman = true;
     }
 
-    if (this.compound.length > 1 && (this.protein.length <= 1 || this.disease.length <= 1)) {
+    else if (this.compound.length > 1 && (this.protein.length <= 1 || this.disease.length <= 1)) {
         this.predictCompound();
         showCompound = true;
     }
 
-    if (this.protein.length > 1 && (this.tanaman.length <= 1 || this.compound.length <= 1)) {
+    else if (this.protein.length > 1 && (this.tanaman.length <= 1 || this.compound.length <= 1)) {
         this.predictProtein();
         showProtein = true;
     }
 
-    if (this.disease.length > 1 && (this.tanaman.length <= 1 || this.compound.length <= 1)) {
+    else if (this.disease.length > 1 && (this.tanaman.length <= 1 || this.compound.length <= 1)) {
         this.predictDisease();
         showDisease = true;
     }
-    //
-    // if (this.tanaman.length > 1 && this.protein.length > 1) {
-    //     this.predictPlantProtein();
-    // }
-    //
-    // if (this.compound.length > 1 && this.disease.length > 1) {
-    //     this.predictCompoundDisease();
-    // }
+
+    else if (this.tanaman.length > 1 && this.protein.length > 1) {
+        this.predictPlantProtein();
+    }
+
+    else if (this.compound.length > 1 && this.disease.length > 1) {
+        this.predictCompoundDisease();
+    }
     //
     // if (this.tanaman.length > 1 && this.disease.length > 1) {
     //     // this.predictPlantDisease();
